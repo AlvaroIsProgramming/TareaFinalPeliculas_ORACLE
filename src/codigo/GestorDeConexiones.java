@@ -36,15 +36,14 @@ public class GestorDeConexiones {
 //            Logger.getLogger(GestorDeConexiones.class.getName()).log(Level.SEVERE, null, ex1);
 //        }
 //    }
-
     //Metodo para conectarte a la BBDD
     public void conection() {
         try {
-            String urll = "jdbc:oracle:thin:@localhost:1521/CENTROESTUDIOS";
+            String url = "jdbc:oracle:thin:@localhost:1521/CENTROESTUDIOS";
             String user = "root";
             String password = "4002";
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            conexion = DriverManager.getConnection(urll, user, password);
+            conexion = DriverManager.getConnection(url, user, password);
             System.out.println("FUNCIONA");
         } catch (SQLException ex) {
             System.out.println("ERROR:direccion no valido o usuario/clave");
@@ -77,32 +76,6 @@ public class GestorDeConexiones {
     }
 
     //METODO PARA DE ALTA EN LA BBDD
-//    //INSERTAR PELICULA
-//    public void insertarPelicula(String id_Pelicula, String nombre_Pelicula, String genero_Pelicula, String director_Pelicula, String duracion_Pelicula) {
-//        Statement sta;
-//        try {
-//            conexion.setAutoCommit(false);
-//
-//            sta = conexion.createStatement();
-//            sta.executeUpdate("INSERT INTO pelicula(id_Pelicula, nombre_Pelicula, genero_Pelicula, director_Pelicula,duracion_Pelicula)"
-//                    + " VALUES(" + id_Pelicula + ", '" + nombre_Pelicula + "', '" + genero_Pelicula + "', '" + director_Pelicula + "', '" + duracion_Pelicula + "');");
-//            sta.close();
-//
-//            conexion.commit();
-//
-//        } catch (SQLException ex) {
-//            System.out.println(ex.toString());
-//            System.out.println("Error al insertar Película");
-//            if (conexion != null) {
-//                try {
-//                    conexion.rollback();
-//                } catch (SQLException ex1) {
-//                    System.out.println(ex1.toString());
-//                    System.out.println("Error al insertar película.");
-//                }
-//            }
-//        }
-//    }
     //INSERTAR CRITICA
     public void insertarCritica(String id_Critica, String cod_critico, String critica_Nombre, String texto_Critica, String puntuacion_Critica) {
         Statement sta;
@@ -110,8 +83,12 @@ public class GestorDeConexiones {
             conexion.setAutoCommit(false);
 
             sta = conexion.createStatement();
-            sta.executeUpdate("INSERT INTO critica(id_Critica, cod_critico,critica_Nombre, texto_Critica, puntuacion_Critica)"
-                    + " VALUES(" + id_Critica + ", '" + cod_critico + "', '" + critica_Nombre + "', '" + texto_Critica + "', '" + puntuacion_Critica + "');");
+            sta.executeUpdate("INSERT INTO Critica VALUES('" + id_Critica
+                    + "',(SELECT REF(c) FROM Critico c WHERE c.cod_Critico_Critica='"
+                    + cod_critico + "'),'"
+                    + critica_Nombre + "','" 
+                    + texto_Critica + "','"
+                    + puntuacion_Critica + "')");
             sta.close();
 
             conexion.commit();
@@ -130,54 +107,20 @@ public class GestorDeConexiones {
     }
 
     //INSERTAR CRITICO
-    public void insertarCritico(String id_Critico, String nombre_Critico, String cod_Critico_Critica) {
+    public void insertarCritico(String id_Critico, String nombre_Critico, String apodo_Critico, String cod_Critico_Critica) {
         Statement sta;
         try {
-            conexion.setAutoCommit(false);
-
             sta = conexion.createStatement();
-            sta.executeUpdate("INSERT INTO critico(id_Critico, nombre_Critico, cod_Critico_Critica)"
-                    + " VALUES(" + id_Critico + ", '" + nombre_Critico + "', '" + cod_Critico_Critica + "');");
+            sta.executeUpdate("INSERT INTO Critico(id_Critico, nombre_Critico, apodo_Critico, cod_Critico_Critica) VALUES\n"
+                    + "( '" + id_Critico + "', '" + nombre_Critico + "', '" + apodo_Critico + "', '" + cod_Critico_Critica + "' )");
             sta.close();
-            conexion.commit();
 
         } catch (SQLException ex) {
             System.out.println(ex.toString());
-            System.out.println("Error al insertar Critico");
-            if (conexion != null) {
-                try {
-                    conexion.rollback();
-                } catch (SQLException ex1) {
-                    System.out.println(ex1.toString());
-                    System.out.println("Error al insertar crítico.");
-                }
-            }
         }
     }
 
     //METODO PARA DAR DE BAJA EN LA BBDD
-    //ELIMINAR PELICULA
-//    public void eliminarPelicula(String id_Pelicula) {
-//        Statement sta;
-//        try {
-//            conexion.setAutoCommit(false);
-//            sta = conexion.createStatement();
-//            sta.executeUpdate("DELETE FROM pelicula WHERE id_Pelicula = " + id_Pelicula + ";");
-//            sta.close();
-//            conexion.commit();
-//        } catch (SQLException ex) {
-//            System.out.println(ex.toString());
-//            System.out.println("Error al eliminar película.");
-//            if (conexion != null) {
-//                try {
-//                    conexion.rollback();
-//                } catch (SQLException ex1) {
-//                    System.out.println(ex1.toString());
-//                    System.out.println("Error al eliminar pelicula.");
-//                }
-//            }
-//        }
-//    }
     //ELIMINAR CRITICA 
     public void eliminarCritica(String id_Critica) {
 
@@ -300,7 +243,7 @@ public class GestorDeConexiones {
     //BUSQUEDA POR GENERO
 
     public String cosulta_Genero(String genero_Pelicula) {
-        String query = "SELECT * FROM pelicula WHERE genero_Pelicula= ?;";
+        String query = "SELECT * FROM Pelicula WHERE genero_Pelicula= ?;";
         String consulta = "";
         try {
             PreparedStatement pst = conexion.prepareStatement(query);
@@ -312,12 +255,14 @@ public class GestorDeConexiones {
                         + ", Titulo: " + rs.getString("nombre_Pelicula")
                         + ", Genero: " + rs.getString("genero_Pelicula")
                         + ", Director: " + rs.getString("director_Pelicula")
-                        + ", Duracion: " + rs.getString("duracion_Pelicula"));
-                consulta = "ID: " + rs.getString("id_Pelicula")
-                        + ", Titulo: " + rs.getString("nombre_Pelicula")
-                        + ", Genero: " + rs.getString("genero_Pelicula")
-                        + ", Director: " + rs.getString("director_Pelicula")
-                        + ", Duracion: " + rs.getString("duracion_Pelicula");
+                        + ", Duracion: " + rs.getString("duracion_Pelicula")
+                        + ", Estudio: " + rs.getString("estudio"));
+//                consulta = "ID: " + rs.getString("id_Pelicula")
+//                        + ", Titulo: " + rs.getString("nombre_Pelicula")
+//                        + ", Genero: " + rs.getString("genero_Pelicula")
+//                        + ", Director: " + rs.getString("director_Pelicula")
+//                        + ", Duracion: " + rs.getString("duracion_Pelicula");
+                consulta = "";
             }
 
             rs.close();
@@ -333,31 +278,24 @@ public class GestorDeConexiones {
 
     //EDITAR DATOS DE LA BBDD
     //CRITICO, SOLO SE PUEDE CAMBIAR EL NOMBRE
-    public void editarCritico(String id_Critico, String nombre_Critico) {
+    public void editarCritico(String id_Critico, String nombre_Critico, String apodoCritico) {
         Statement sta;
         try {
-
-            conexion.setAutoCommit(false);
             sta = conexion.createStatement();
+            String comanda = "UPDATE Critico SET nombre_critico ='" + nombre_Critico + "' , apodo_critico='" + apodoCritico
+                    + "' WHERE id_critico='" + id_Critico + "';";
+            sta.executeUpdate(comanda);
+//                   sta.executeUpdate("UPDATE Critico SET "
+//                    + "nombre_critico='" + nombre_Critico
+//                    + "', apodo_critico='" + apodoCritico
+//                    + "' WHERE id_critico='" + id_Critico + "';");
 
-            sta.executeUpdate("UPDATE critico SET nombre_Critico = '" + nombre_Critico
-                    + "' WHERE id_Critico =" + id_Critico + ";");
-
+            System.out.println(sta);
             sta.close();
-
-            conexion.commit();
 
         } catch (Exception ex) {
             System.out.println(ex.toString());
             System.out.println("Error al actualizar critico.");
-            if (conexion != null) {
-                try {
-                    conexion.rollback();
-                } catch (SQLException ex1) {
-                    System.out.println(ex1.toString());
-                    System.out.println("Error al actualizar critico.");
-                }
-            }
         }
     }
 
