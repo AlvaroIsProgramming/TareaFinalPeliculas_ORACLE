@@ -21,21 +21,7 @@ import java.util.logging.Logger;
 public class GestorDeConexiones {
 
     Connection conexion = null;
-
-//    public GestorDeConexiones() {
-//
-//        try {
-//            String urll = "jdbc:oracle:thin:@localhost:1521/CENTROESTUDIOS";
-//            String user = "root";
-//            String password = "4002";
-//            Class.forName("oracle.jdbc.driver.OracleDriver");
-//            conexion = DriverManager.getConnection(urll, user, password);
-//        } catch (SQLException ex) {
-//            System.out.println("ERROR:direccion no valido o usuario/clave");
-//        } catch (ClassNotFoundException ex1) {
-//            Logger.getLogger(GestorDeConexiones.class.getName()).log(Level.SEVERE, null, ex1);
-//        }
-//    }
+    
     //Metodo para conectarte a la BBDD
     public void conection() {
         try {
@@ -86,7 +72,7 @@ public class GestorDeConexiones {
             sta.executeUpdate("INSERT INTO Critica VALUES('" + id_Critica
                     + "',(SELECT REF(c) FROM Critico c WHERE c.cod_Critico_Critica='"
                     + cod_critico + "'),'"
-                    + critica_Nombre + "','" 
+                    + critica_Nombre + "','"
                     + texto_Critica + "','"
                     + puntuacion_Critica + "')");
             sta.close();
@@ -129,7 +115,7 @@ public class GestorDeConexiones {
             conexion.setAutoCommit(false);
             sta = conexion.createStatement();
 
-            sta.executeUpdate("DELETE FROM critica WHERE id_Critica = " + id_Critica + ";");
+            sta.executeUpdate("DELETE FROM Critica WHERE id_Critica ='" + id_Critica + "'");
 
             sta.close();
             conexion.commit();
@@ -152,32 +138,22 @@ public class GestorDeConexiones {
         Statement sta;
         try {
 
-            conexion.setAutoCommit(false);
             sta = conexion.createStatement();
 
-            sta.executeUpdate("DELETE FROM critica WHERE cod_critico = '" + cod_Critico_Critica + "';");
-            sta.executeUpdate("DELETE FROM critico WHERE cod_Critico_Critica = '" + cod_Critico_Critica + "';");
+            //sta.executeUpdate("DELETE FROM critica WHERE cod_critico = '" + cod_Critico_Critica + "';");
+            sta.executeUpdate("DELETE FROM Critico WHERE cod_Critico_Critica ='" + cod_Critico_Critica + "'");
 
             sta.close();
-            conexion.commit();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
             System.out.println("Error al eliminar Critico.");
-            if (conexion != null) {
-                try {
-                    conexion.rollback();
-                } catch (SQLException ex1) {
-                    System.out.println(ex1.toString());
-                    System.out.println("Error al eliminar critico.");
-                }
-            }
         }
     }
 
     //PREPARED STATEMENT
     //Peliculas de un Director
     public String cosulta_PeliculasDirector(String director_Pelicula) {
-        String query = "SELECT * FROM pelicula WHERE director_Pelicula= ?;";
+        String query = "SELECT * FROM pelicula WHERE director_Pelicula= ?";
         String consulta = "";
         try {
             PreparedStatement pst = conexion.prepareStatement(query);
@@ -189,12 +165,14 @@ public class GestorDeConexiones {
                         + ", Titulo: " + rs.getString("nombre_Pelicula")
                         + ", Genero: " + rs.getString("genero_Pelicula")
                         + ", Director: " + rs.getString("director_Pelicula")
-                        + ", Duracion: " + rs.getString("duracion_Pelicula"));
+                        + ", Duracion: " + rs.getString("duracion_Pelicula")
+                        + ", Estudio: " + rs.getString("estudio"));
                 consulta = "ID: " + rs.getString("id_Pelicula")
                         + ", Titulo: " + rs.getString("nombre_Pelicula")
                         + ", Genero: " + rs.getString("genero_Pelicula")
                         + ", Director: " + rs.getString("director_Pelicula")
-                        + ", Duracion: " + rs.getString("duracion_Pelicula");
+                        + ", Duracion: " + rs.getString("duracion_Pelicula")
+                        + ", Estudio: " + rs.getString("estudio");
             }
 
             rs.close();
@@ -210,7 +188,7 @@ public class GestorDeConexiones {
 
     //BUSQUEDA CRITICAS DE UN CRITICO
     public String cosulta_CriticasCritico(String cod_critico) {
-        String query = "SELECT * FROM critica WHERE cod_critico= ?;";
+        String query = "SELECT * FROM critica WHERE id_Critica= ?";
         String consulta = "";
         try {
             PreparedStatement pst = conexion.prepareStatement(query);
@@ -243,7 +221,7 @@ public class GestorDeConexiones {
     //BUSQUEDA POR GENERO
 
     public String cosulta_Genero(String genero_Pelicula) {
-        String query = "SELECT * FROM Pelicula WHERE genero_Pelicula= ?;";
+        String query = "SELECT * FROM Pelicula WHERE genero_Pelicula= ?";
         String consulta = "";
         try {
             PreparedStatement pst = conexion.prepareStatement(query);
@@ -257,12 +235,12 @@ public class GestorDeConexiones {
                         + ", Director: " + rs.getString("director_Pelicula")
                         + ", Duracion: " + rs.getString("duracion_Pelicula")
                         + ", Estudio: " + rs.getString("estudio"));
-//                consulta = "ID: " + rs.getString("id_Pelicula")
-//                        + ", Titulo: " + rs.getString("nombre_Pelicula")
-//                        + ", Genero: " + rs.getString("genero_Pelicula")
-//                        + ", Director: " + rs.getString("director_Pelicula")
-//                        + ", Duracion: " + rs.getString("duracion_Pelicula");
-                consulta = "";
+                consulta = "ID: " + rs.getString("id_Pelicula")
+                        + ", Titulo: " + rs.getString("nombre_Pelicula")
+                        + ", Genero: " + rs.getString("genero_Pelicula")
+                        + ", Director: " + rs.getString("director_Pelicula")
+                        + ", Duracion: " + rs.getString("duracion_Pelicula")
+                        + ", Estudio: " + rs.getString("estudio");
             }
 
             rs.close();
@@ -283,12 +261,8 @@ public class GestorDeConexiones {
         try {
             sta = conexion.createStatement();
             String comanda = "UPDATE Critico SET nombre_critico ='" + nombre_Critico + "' , apodo_critico='" + apodoCritico
-                    + "' WHERE id_critico='" + id_Critico + "';";
+                    + "' WHERE id_critico='" + id_Critico + "'";
             sta.executeUpdate(comanda);
-//                   sta.executeUpdate("UPDATE Critico SET "
-//                    + "nombre_critico='" + nombre_Critico
-//                    + "', apodo_critico='" + apodoCritico
-//                    + "' WHERE id_critico='" + id_Critico + "';");
 
             System.out.println(sta);
             sta.close();

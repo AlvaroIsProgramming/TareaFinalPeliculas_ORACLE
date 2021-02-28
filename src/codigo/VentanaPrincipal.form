@@ -194,7 +194,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cod_Crit:"/>
+                <Property name="text" type="java.lang.String" value="Id_Critica:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldBuscarGenero">
@@ -243,8 +243,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButtonEditarCriticas" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
@@ -253,33 +252,32 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel1" min="-2" pref="26" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldid_Critica" min="-2" pref="156" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jTextFieldTexto_Critica" max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="jTextFieldid_Critica" alignment="1" min="-2" pref="156" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jButtonAñadirCritica" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jTextFieldcod_Critico" pref="91" max="32767" attributes="0"/>
-                                          <Component id="jTextFieldCritica_Nombre" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <Component id="jButtonEditarCriticas" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jButtonAñadirCritica" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTextFieldcod_Critico" pref="91" max="32767" attributes="0"/>
+                              <Component id="jTextFieldCritica_Nombre" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="509" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -294,32 +292,43 @@
                           <Component id="jButtonBorrarCritica" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelinfo_Critica" min="-2" pref="17" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldid_Critica" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldcod_Critico" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel9" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jLabel3" alignment="1" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextFieldPuntuacion_Critica" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextFieldCritica_Nombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldcod_Critico" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel9" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldCritica_Nombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="jTextFieldid_Critica" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel3" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldPuntuacion_Critica" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextFieldTexto_Critica" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonAñadirCritica" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jTextFieldTexto_Critica" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="jButtonEditarCriticas" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButtonEditarCriticas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonAñadirCritica" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
               </Group>
