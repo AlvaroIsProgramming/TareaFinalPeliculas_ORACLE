@@ -283,7 +283,7 @@ public class GestorDeConexiones {
 
             sta.executeUpdate("UPDATE critica SET critica_Nombre = '" + critica_Nombre
                     + "', texto_Critica= '" + texto_Critica + "', puntuacion_Critica= '"
-                    + puntuacion_Critica + "' WHERE id_Critica = " + id + ";");
+                    + puntuacion_Critica + "' WHERE id_Critica = " + id );
 
             sta.close();
 
